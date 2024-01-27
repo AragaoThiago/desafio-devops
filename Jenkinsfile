@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY_URI = '290356906676.dkr.ecr.us-east-1.amazonaws.com/myrepo'
+        REGISTRY_URI = '158355329422.dkr.ecr.us-east-1.amazonaws.com/devops'
         IMAGE_TAG = 'minha-aplicacao-java:latest'
         AWS_REGION = 'us-east-1'
         AWS_CREDENTIALS_ID = 'ff92258b-6616-45e7-bbe6-275f6f46be5a'
