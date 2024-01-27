@@ -33,15 +33,16 @@ pipeline {
             }
         }
 
-        stage('Push Image to ECR') {
+	stage('Login to AWS ECR') {
             steps {
                 script {
-                    docker.withRegistry("https://${REGISTRY_URI}", AWS_CREDENTIALS_ID) {
-                        docker.image("${IMAGE_TAG}").push()
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: AWS_CREDENTIALS_ID]]) {
+                        sh "docker push ${REGISTRY_URI}"
                     }
                 }
             }
         }
+
     }
 }
 
