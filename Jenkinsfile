@@ -16,9 +16,16 @@ pipeline {
         stage('Checkout App Code') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Prepare Image Tag') {
+            steps {
                 script {
-                    IMAGE_TAG = "minha-aplicacao-java-${env.GIT_COMMIT}" // Gerando uma tag única
-                    environment.IMAGE_TAG = "${REGISTRY_URI}:${IMAGE_TAG}"
+                    // Gerando uma tag única com base no hash do commit do Git
+                    IMAGE_TAG = "minha-aplicacao-java-${env.GIT_COMMIT}"
+                    // Define a variável de ambiente IMAGE_TAG para ser usada nos próximos estágios
+                    env.IMAGE_TAG = "${REGISTRY_URI}:${IMAGE_TAG}"
                 }
             }
         }
@@ -64,7 +71,7 @@ pipeline {
             steps {
                 script {
                     sh "terraform init"
-                    sh "terraform apply -auto-approve"
+                    sh "terraform apply -auto-approve -var 'docker_image=${environment.IMAGE_TAG}'"
                 }
             }
         }
