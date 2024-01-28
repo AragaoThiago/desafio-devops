@@ -22,10 +22,9 @@ pipeline {
         stage('Prepare Image Tag') {
             steps {
                 script {
-                    // Gerando uma tag única com base no hash do commit do Git
-                    IMAGE_TAG = "minha-aplicacao-java-${env.GIT_COMMIT}"
-                    // Define a variável de ambiente IMAGE_TAG para ser usada nos próximos estágios
-                    env.IMAGE_TAG = "${REGISTRY_URI}:${IMAGE_TAG}"
+                    // Gerando uma tag única com base no hash do commit do Git e atualizando a variável de ambiente
+                    def imageTag = "minha-aplicacao-java-${env.GIT_COMMIT}"
+                    env.IMAGE_TAG = "${REGISTRY_URI}:${imageTag}"
                 }
             }
         }
