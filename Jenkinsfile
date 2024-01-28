@@ -65,7 +65,8 @@ pipeline {
             steps {
                 git(
                     credentialsId: 'c6a9147b-1d40-4cc0-9d29-979e3dfb8048', 
-                    url: "${REPO_TERRAFORM}"                 
+                    url: "${REPO_TERRAFORM}",
+                    branch: 'main'              
                 )
             }
         }
