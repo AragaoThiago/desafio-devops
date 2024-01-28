@@ -51,7 +51,11 @@ pipeline {
             steps {
                 script {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: AWS_CREDENTIALS_ID]]) {
-                        sh "docker push ${env.IMAGE_TAG}"
+                        // Primeiro, tag a imagem com o URI do repositório ECR
+                        sh "docker tag ${env.IMAGE_TAG} ${REGISTRY_URI}:${env.IMAGE_TAG.split(':')[1]}"
+
+                        // Em seguida, faça o push da imagem para o repositório ECR
+                        sh "docker push ${REGISTRY_URI}:${env.IMAGE_TAG.split(':')[1]}"
                     }
                 }
             }
