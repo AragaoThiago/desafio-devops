@@ -4,6 +4,7 @@ pipeline {
     environment {
         AWS_REGION          = 'us-east-1'
         AWS_CREDENTIALS_ID  = 'ff92258b-6616-45e7-bbe6-275f6f46be5a'
+        AWS_CREDENTIALS_ID2 = 'ff92258b-6616-45e7-bbe6-275f6f46be5a'
         REPO_TERRAFORM      = 'https://github.com/AragaoThiago/terraform-devops.git'
         REGISTRY_URI        = '158355329422.dkr.ecr.us-east-1.amazonaws.com/devops'
         IMAGE_TAG           = ''
@@ -74,8 +75,10 @@ pipeline {
         stage('Terraform Init and Apply') {
             steps {
                 script {
-                    sh "terraform init"
-                    sh "terraform apply -auto-approve -var 'docker_image=${environment.IMAGE_TAG}'"
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: AWS_CREDENTIALS_ID]]) {
+                        sh "terraform init"
+                        sh "terraform apply -auto-approve -var 'docker_image=${environment.IMAGE_TAG}'"
+                    }
                 }
             }
         }
