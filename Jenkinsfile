@@ -76,7 +76,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: AWS_CREDENTIALS_ID]]) {
-                        sh "terraform init"
+                       // sh "terraform init"
                         sh "terraform apply -auto-approve -var 'docker_image=${environment.IMAGE_TAG}'"
                     }
                 }
