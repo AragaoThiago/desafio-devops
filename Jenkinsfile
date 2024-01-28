@@ -51,7 +51,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: AWS_CREDENTIALS_ID]]) {
-                        sh "docker push ${environment.IMAGE_TAG}"
+                        sh "docker push ${env.IMAGE_TAG}"
                     }
                 }
             }
